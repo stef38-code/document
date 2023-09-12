@@ -1,0 +1,311 @@
+
+
+=== Pattern Factory
+Le pattern factory est une solution à la duplication de code, il existe plusieurs type de pattern factory. +
+Nous allons voir une solution via une énumération
+
+==== Code original
+
+Le bout de code de cet exemple est la creation d'un courrier avec les cas suivants :
+
+* Une naissance
+* Un mariage
+* Un décès
+* Autres
+
+
+===== Classe de données
+[%linenums,java,subs=attributes+quotes+]
+----
+package org.pattern.factory.dto
+import lombok.Data;
+
+@Getter
+@RequiredArgsConstructor
+public class Courrier {
+
+    private String typeDemande;
+    private String codeOperation;
+    private String codeDocument;
+    //...
+
+}
+----
+
+===== Services
+
+.Service Courrier dans le cas d'une naissance
+[source,java,subs=attributes+]
+----
+package org.pattern.factory.services;
+
+import org.pattern.factory.dto.Courrier;
+import org.pattern.factory.enumeration.DemandeType;
+import org.pattern.factory.enumeration.Document;
+import org.pattern.factory.enumeration.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class CourrierNaissanceServiceImpl implements CourrierService {
+
+    @Override
+    public Courrier courrierNaissance() {
+        log.info("Courrier de naissance");
+        Courrier courrier = new Courrier();
+        courrier.setTypeDemande(DemandeType.COURRIER_NAISS.getCode());
+        courrier.setCodeDocument(Document.COURRIER_NAISS.getCode());
+        courrier.setCodeOperation(Operation.COURRIER_NAISS.getCode());
+
+        return courrier;
+    }
+}
+
+----
+
+.Service Courrier dans le cas d'un mariage
+[source,java,subs=attributes+]
+----
+package org.pattern.factory.services;
+
+import org.pattern.factory.dto.Courrier;
+import org.pattern.factory.enumeration.DemandeType;
+import org.pattern.factory.enumeration.Document;
+import org.pattern.factory.enumeration.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class CourrierMariageServiceImpl implements CourrierService {
+
+    @Override
+    public Courrier courrierMariage() {
+        log.info("Courrier de mariage");
+        Courrier courrier = new Courrier();
+        courrier.setTypeDemande(DemandeType.COURRIER_MARIAGE.getCode());
+        courrier.setCodeDocument(Document.COURRIER_MARIAGE.getCode());
+        courrier.setCodeOperation(Operation.COURRIER_MARIAGE.getCode());
+
+        return courrier;
+    }
+   
+}
+----
+
+.Service Courrier dans le cas d'une décès
+[source,java,subs=attributes+]
+----
+package org.pattern.factory.services;
+
+import org.pattern.factory.dto.Courrier;
+import org.pattern.factory.enumeration.DemandeType;
+import org.pattern.factory.enumeration.Document;
+import org.pattern.factory.enumeration.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class CourrierDecesServiceImpl implements CourrierService {
+    @Override
+    public Courrier courrierDeces() {
+        log.info("Courrier de deces");
+        Courrier courrier = new Courrier();
+        courrier.setTypeDemande(DemandeType.COURRIER_DECES.getCode());
+        courrier.setCodeDocument(Document.COURRIER_DECES.getCode());
+        courrier.setCodeOperation(Operation.COURRIER_DECES.getCode());
+
+        return courrier;
+    }
+}
+----
+
+
+.Service Courrier dans le cas non connu
+[source,java,subs=attributes+]
+----
+package org.pattern.factory.services;
+
+import org.pattern.factory.dto.Courrier;
+import org.pattern.factory.enumeration.DemandeType;
+import org.pattern.factory.enumeration.Document;
+import org.pattern.factory.enumeration.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class CourrierAutresServiceImpl implements CourrierService {
+
+    @Override
+    public Courrier courrierAutres(){
+        log.info("Autres courrier");
+        Courrier courrier = new Courrier();
+        courrier.setTypeDemande(DemandeType.COURRIER_AUTRE.getCode());
+        courrier.setCodeDocument(Document.COURRIER_AUTRE.getCode());
+        courrier.setCodeOperation(Operation.COURRIER_AUTRE.getCode());
+
+        return courrier;
+    }
+}
+----
+==== Premier Refactoring
+Voici le type de réfacto. qui est fait :
+
+.Externaliser la création du document
+[source,java,subs=attributes+]
+----
+package org.pattern.factory.services;
+
+import org.pattern.factory.dto.Courrier;
+import org.pattern.factory.enumeration.DemandeType;
+import org.pattern.factory.enumeration.Document;
+import org.pattern.factory.enumeration.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class CreationCourrierServiceImpl implements CreationCourrierService {
+
+    @Override
+    public Courrier creationCourrier(DemandeType demandeType){
+        log.info("Creation du courrier {}",demandeType.getCode());
+        return getCourrier(demandeType);
+    }
+    
+    private Courrier getCourrier(DemandeType demandeType){
+    
+        if(demandeType.getCode().equals(DemandeType.COURRIER_NAISS.getCode())){
+            return create(DemandeType.COURRIER_NAISS,Documen.COURRIER_NAISS,Operation.COURRIER_NAISS);
+            
+        }else if(demandeType.getCode().equals(DemandeType.COURRIER_MARIAGE.getCode())){
+            return create(DemandeType.COURRIER_MARIAGE,Document.COURRIER_MARIAGE,Operation.COURRIER_MARIAGE);
+            
+        }else if(demandeType.getCode().equals(DemandeType.COURRIER_DECES.getCode())){
+            return create(DemandeType.COURRIER_DECES,Document.COURRIER_DECES,Operation.COURRIER_DECES);
+            
+        }
+        
+        return create(DemandeType.COURRIER_AUTRE,Document.COURRIER_AUTRE,Operation.COURRIER_AUTRE);
+    }
+    private Courrier create(DemandeType demandeType,Document document,Operation operation){
+        Courrier courrier = new Courrier();
+        courrier.setTypeDemande(demandeType.getCode());
+        courrier.setCodeDocument(document.getCode());
+        courrier.setCodeOperation(operation.getCode());
+        return courrier;
+    }
+}
+----
+
+En fonction de la version java utilisée, il est aussi possible de faire un *'switch case'*
+
+.Même version avec un swicth
+[source,java,subs=attributes+]
+----
+package org.pattern.factory.services;
+
+import org.pattern.factory.dto.Courrier;
+import org.pattern.factory.enumeration.DemandeType;
+import org.pattern.factory.enumeration.Document;
+import org.pattern.factory.enumeration.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class CreationCourrierServiceImpl implements CreationCourrierService {
+
+    @Override
+    public Courrier creationCourrier(DemandeType demandeType){
+        log.info("Creation du courrier {}",demandeType.getCode());
+        return getCourrier(demandeType);
+    }
+    
+    private Courrier getCourrier(DemandeType demandeType){
+    
+        swicth (demandeType) {
+        case DemandeType.COURRIER_NAISS:
+            return create(DemandeType.COURRIER_NAISS,Document.COURRIER_NAISS,Operation.COURRIER_NAISS);
+        case DemandeType.COURRIER_MARIAGE:
+            return create(DemandeType.COURRIER_MARIAGE,Document.COURRIER_MARIAGE,Operation.COURRIER_MARIAGE);
+        case DemandeType.COURRIER_DECES:
+            return create(DemandeType.COURRIER_DECES,Document.COURRIER_DECES,Operation.COURRIER_DECES);
+        default : 
+            return create(DemandeType.COURRIER_AUTRE,Document.COURRIER_AUTRE,Operation.COURRIER_AUTRE);
+        }
+    }
+    
+    //...
+}
+----
+
+.Service
+[source,java]
+----
+
+----
+Si d'aventure, on doit réaliser l'ajout de nouveau cas, il faudra venir ajouter des if ou des case. +
+Au bout d'un moment, cela vite devenir _lourd_ et __pas très lisible__.
+Une solution est le *Pattern Factory*
+
+==== Solution Pattern Factory
+
+.Enumération
+[source,java,subs=attributes+]
+----
+public enum CourrierFactory {
+    NAISSANCE{
+        @Override
+        public DemandeAffiliationDto create() {
+            return create(DemandeType.COURRIER_NAISS,Document.COURRIER_NAISS,Operation.COURRIER_NAISS);
+        }
+    },
+    MARIAGE{
+        @Override
+        public DemandeAffiliationDto create() {
+            return create(DemandeType.COURRIER_MARIAGE,Document.COURRIER_MARIAGE,Operation.COURRIER_MARIAGE);
+        }
+    },
+    DECES{
+        @Override
+        public DemandeAffiliationDto create() {
+            return create(DemandeType.COURRIER_DECES,Document.COURRIER_DECES,Operation.COURRIER_DECES);
+        }
+    },
+    AUTRES{
+        @Override
+        public DemandeAffiliationDto create() {
+            return create(DemandeType.COURRIER_AUTRE,Document.COURRIER_AUTRE,Operation.COURRIER_AUTRE);
+        }
+    };
+
+    public abstract DemandeAffiliationDto create();
+
+    private Courrier create(DemandeType demandeType,Document document,Operation operation){
+            Courrier courrier = new Courrier();
+            courrier.setTypeDemande(demandeType.getCode());
+            courrier.setCodeDocument(document.getCode());
+            courrier.setCodeOperation(operation.getCode());
+            return courrier;
+    }
+
+}
+----
+
+

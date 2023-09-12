@@ -1,0 +1,38 @@
+=== Victor Rentera
+
+==== Design clean and pragmatic architecture
+
+* [] checkmark Slice and structure your application by Features.
+* [] checkmark Group code by the axis of change.
+* [] checkmark Organize code in functional top-level packages.
+* [] checkmark Find package boundaries (heuristics).
+* [] checkmark Remove cyclic dependencies between packages (6 strategies).
+* [] checkmark Separate module/compilation units.
+* [] checkmark Decouple modules/packages/components with Dependency Inversion.
+* [] checkmark Reduce cognitive load with modularity and information hiding.
+* [] checkmark Enforce architectural constraints.
+* [] checkmark Isolate the core application logic from the infrastructure.
+* [] checkmark Test your core logic, infrastructure, and integrations.
+* [] checkmark Segregate data structures and DB Schemas.
+* [] checkmark Balance between uniformity/standardization and pragmatism.
+* [] checkmark Leverage Evolutionary Architecture and avoid big up-front designs.
+* [] checkmark Incrementally migrate from legacy Big Ball of Mud to Modulith/Microservices.
+
+==== Design clean services and domain model
+
+* [] checkmark Apply SOLID Principles and Five Rules of Simple Design.
+* [] checkmark Masterfully balance coupling and cohesion.
+* [] checkmark Make your code speak the domain language.
+* [] checkmark Separate the core domain from subdomains.
+* [] checkmark Decouple domains with APIs and events.
+* [] checkmark Design rich domain entities (OOP done right).
+* [] checkmark Protect domain objects’ invariants (strategies).
+* [] checkmark Decouple the domain from the infrastructure, API, and persistence.
+* [] checkmark Create an Anti-Corruption Layer with Adapter pattern.
+* [] checkmark Test-drive the domain with fast unit tests.
+* [] checkmark Map the domain to the API DTOs (and stay away from auto-mappers).
+* [] checkmark Separate logic by Layers of Abstraction.
+* [] checkmark Design Application Services, Controllers, and Façades.
+* [] checkmark Logically separate commands from queries with CQRS.
+* [] checkmark Improve query performance by using a separate read model.
+* [] checkmark Keep write and read models in sync.

@@ -1,0 +1,17 @@
+= My Book
+
+:doctype: manpage
+:encoding: utf-8
+:lang: en
+:toc: left
+:imagesdir: images
+:toclevels: 6
+:icons: font
+
+:source-highlighter: rouge
+:rouge-style: github
+
+== Pattern
+include::Cheatsheet/pattern/factory.adoc[]
+== Objectifs
+include::objectifs/Victor_Rentera.adoc[]
