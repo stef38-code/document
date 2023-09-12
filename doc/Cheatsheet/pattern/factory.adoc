@@ -15,21 +15,16 @@ Le bout de code de cet exemple est la creation d'un courrier avec les cas suivan
 
 
 ===== Classe de données
+
 [%linenums,java,subs=attributes+quotes+]
 ----
-package org.pattern.factory.dto
-import lombok.Data;
+include::../../../application/src/main/java/org/document/applicaton/dto/CourrierDto.java[]
+----
 
-@Getter
-@RequiredArgsConstructor
-public class Courrier {
-
-    private String typeDemande;
-    private String codeOperation;
-    private String codeDocument;
-    //...
-
-}
+===== Controller
+[%linenums,java,subs=attributes+quotes+]
+----
+include::../../../application/src/main/java/org/document/applicaton/controllers/CourrierController.java[]
 ----
 
 ===== Services
