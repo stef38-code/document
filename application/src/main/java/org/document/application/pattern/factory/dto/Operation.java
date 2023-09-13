@@ -1,4 +1,4 @@
-package org.document.applicaton.dto;
+package org.document.application.pattern.factory.dto;
 
 public enum Operation {
     COURRIER_NAISS("email"),

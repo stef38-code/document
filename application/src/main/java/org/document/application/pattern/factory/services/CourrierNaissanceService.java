@@ -1,16 +1,16 @@
-package org.document.applicaton.services;
+package org.document.application.pattern.factory.services;
 
-import org.document.applicaton.dto.CourrierDto;
-import org.document.applicaton.dto.DemandeType;
-import org.document.applicaton.dto.Document;
-import org.document.applicaton.dto.Operation;
+import org.document.application.pattern.factory.dto.CourrierDto;
+import org.document.application.pattern.factory.dto.DemandeType;
+import org.document.application.pattern.factory.dto.Document;
+import org.document.application.pattern.factory.dto.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service("courrierNaissanceService")
 public class CourrierNaissanceService implements CourrierService{
-    private static Logger log = LoggerFactory.getLogger(CourrierNaissanceService.class);
+    private static final Logger log = LoggerFactory.getLogger(CourrierNaissanceService.class);
     @Override
     public CourrierDto getCourrier() {
         log.info("Courrier de naissance");

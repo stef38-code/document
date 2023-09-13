@@ -1,9 +1,11 @@
-package org.document.applicaton.controllers;
+package org.document.application.pattern.factory.controllers;
 
 
-import org.document.applicaton.dto.CourrierDto;
-import org.document.applicaton.services.CourrierService;
+import org.document.application.pattern.factory.dto.CourrierDto;
+import org.document.application.pattern.factory.services.CourrierService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,19 +31,19 @@ public class CourrierController {
     }
 
     @GetMapping("/courrier/naissance")
-    public CourrierDto getCourrierNaissance() {
-        return courrierNaissanceService.getCourrier();
+    public ResponseEntity<CourrierDto>  getCourrierNaissance() {
+        return new ResponseEntity<>(courrierNaissanceService.getCourrier(), HttpStatus.OK);
     }
     @GetMapping("/courrier/mariage")
-    public CourrierDto getCourrierMariage() {
-        return courrierMariageService.getCourrier();
+    public ResponseEntity<CourrierDto> getCourrierMariage() {
+             return new ResponseEntity<>(courrierMariageService.getCourrier(), HttpStatus.OK);
     }
     @GetMapping("/courrier/deces")
-    public CourrierDto getCourrierDeces() {
-        return courrierDecesService.getCourrier();
+    public ResponseEntity<CourrierDto> getCourrierDeces() {
+        return new ResponseEntity<>(courrierDecesService.getCourrier(), HttpStatus.OK);
     }
     @GetMapping("/courrier/autres")
-    public CourrierDto getCourrierAutres() {
-        return courrierAutresService.getCourrier();
+    public ResponseEntity<CourrierDto> getCourrierAutres() {
+          return new ResponseEntity<>(courrierAutresService.getCourrier(), HttpStatus.OK);
     }
 }
