@@ -38,7 +38,7 @@
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <version>2.2.4</version>
                 <executions>
-                    <execution>
+                   <!-- <execution>
                         <id>output-html-readme</id>
                         <phase>generate-resources</phase>
                         <goals>
@@ -48,14 +48,14 @@
                             <backend>html</backend>
                             <attributes>
                                 <toc>left</toc>
-                                <linkcss>false</linkcss>
-                                <source-highlighter>coderay</source-highlighter>
+                                <linkcss>true</linkcss>
+                                <source-highlighter>rouge</source-highlighter>
+                                <imagesdir>./doc/images</imagesdir>
+                                <icons>font</icons>
                             </attributes>
-                            <!-- <sourceDocumentName>readme.adoc</sourceDocumentName>-->
-                            <!-- <preserveDirectories>true</preserveDirectories>-->
                         </configuration>
-                    </execution>
-                    <!--<execution>
+                    </execution>-->
+                    <execution>
                         <id>output-docbook</id>
                         <phase>generate-resources</phase>
                         <goals>
@@ -64,13 +64,20 @@
                         <configuration>
                             <backend>docbook</backend>
                             <doctype>book</doctype>
+                            <attributes>
+                                <toc>left</toc>
+                                <linkcss>true</linkcss>
+                                <source-highlighter>rouge</source-highlighter>
+                                <imagesdir>./doc/images</imagesdir>
+                                <icons>font</icons>
+                            </attributes>
                         </configuration>
-                    </execution>-->
+                    </execution>
+
                 </executions>
                 <configuration>
-                    <!--                <sourceDirectory>./</sourceDirectory>
-                                    -->
-                    <!--<outputDirectory>./asciidoc</outputDirectory>-->
+                                    <sourceDirectory>./doc</sourceDirectory>
+                    <outputDirectory>./asciidoc</outputDirectory>
                     <headerFooter>true</headerFooter>
 
                 </configuration>
