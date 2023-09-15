@@ -83,23 +83,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>1.3.2</version>
-                <configuration>
-                    <exportLineCoverage>true</exportLineCoverage>
-                    <outputFormats><value>XML</value></outputFormats>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>put-it-together</id>
-                        <goals>
-                            <goal>report-aggregate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
         </plugins>
     </build>
 </project>

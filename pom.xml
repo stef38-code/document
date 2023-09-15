@@ -32,56 +32,141 @@
         </dependency>
     </dependencies>
     <build>
+        <pluginManagement>
+            <plugins>
+
+
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.10</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.14.0</version>
+                <configuration>
+                    <timestampedReports>false</timestampedReports>
+                    <failWhenNoMutations>false</failWhenNoMutations>
+                    <reportsDirectory>${project.build.directory}/pit-reports</reportsDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pitest</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>mutationCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.1.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <version>2.2.4</version>
                 <executions>
-                   <!-- <execution>
-                        <id>output-html-readme</id>
+                    <execution>
+                        <id>asciidoc-to-html</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
                             <backend>html</backend>
+                            <backend>html5</backend>
+                            <preserveDirectories>true</preserveDirectories>
+                            <relativeBaseDir>true</relativeBaseDir>
                             <attributes>
                                 <toc>left</toc>
                                 <linkcss>true</linkcss>
                                 <source-highlighter>rouge</source-highlighter>
                                 <imagesdir>./doc/images</imagesdir>
                                 <icons>font</icons>
-                            </attributes>
-                        </configuration>
-                    </execution>-->
-                    <execution>
-                        <id>output-docbook</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>process-asciidoc</goal>
-                        </goals>
-                        <configuration>
-                            <backend>docbook</backend>
-                            <doctype>book</doctype>
-                            <attributes>
-                                <toc>left</toc>
-                                <linkcss>true</linkcss>
-                                <source-highlighter>rouge</source-highlighter>
-                                <imagesdir>./doc/images</imagesdir>
-                                <icons>font</icons>
+                                <sectanchors>true</sectanchors>
                             </attributes>
                         </configuration>
                     </execution>
-
                 </executions>
                 <configuration>
-                                    <sourceDirectory>./doc</sourceDirectory>
-                    <outputDirectory>./asciidoc</outputDirectory>
+                    <!--<sourceDirectory>./doc</sourceDirectory>-->
+                    <outputDirectory>./docs</outputDirectory>
                     <headerFooter>true</headerFooter>
 
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
+            </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.4.3</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
